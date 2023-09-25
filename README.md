@@ -12,7 +12,7 @@ The workflow is divided into the preprocessing of the data and the analyses. The
  The scripts are provided in the [scripts/](scripts/) directory. This directory is divided into two sub-directories, [preprocessing/](preprocessing/) and [analysis/](analysis/) to preprocess the raw data and to estimate the Sea-ice thickness, respectively. 
 
 ## Preprocessing of data
-The preprocessing scripts are found in scripts/preprocessing/
+The preprocessing scripts are found in [scripts/preprocessing/](scripts/preprocessing/)
 
  This is the sequence of operations:
  1. Extract ICESat-2 freeboard data from HDF files to NetCDF file format [extract_IS2_freeboards.py](scripts/analysis/preprocessing/extract_IS2_freeboards.py)
@@ -21,12 +21,12 @@ The preprocessing scripts are found in scripts/preprocessing/
  4. Weigh CryoSat-2 data with AMSR data [weigh_cs2_freeboards.py](scripts/analysis/preprocessing/weigh_cs2_freeboards.py)
 
 ## Analysis
-The scripts to estimate Sea-ice thickness are found in scripts/analysis/
+The scripts to estimate Sea-ice thickness are found in [scripts/analysis/](scripts/analysis/)
  
  These are the different algorithms used:
- 1. Estimation of SIT with the improved One-Layer Method is done here [(OLMi_sit_estimation.py)](scripts/analysis/OLMi_sit_estimation.py)
- 2. Estimation of SIT with the improved Buoyancy equation is done here [(BOC_sit_estimation.py)](scripts/analysis/BOC_sit_estimation.py)
- 3. Estimation of SIT with the freeboard differencing method is done here [(diff_method_sit_estimation.py)](scripts/analysis/diff_method_sit_estimation.py)
+ 1. Estimation of SIT with the improved One-Layer Method is done here ([OLMi_sit_estimation.py](scripts/analysis/OLMi_sit_estimation.py))
+ 2. Estimation of SIT with the improved Buoyancy equation is done here [BOC_sit_estimation.py](scripts/analysis/BOC_sit_estimation.py)
+ 3. Estimation of SIT with the freeboard differencing method is done here [diff_method_sit_estimation.py](scripts/analysis/diff_method_sit_estimation.py)
 
 ## Data source
 The raw data required to complete the reconstruction of Antarctic Sea-ice thickness demonstrated here are publicly available as follows:
