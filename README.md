@@ -9,7 +9,7 @@ This collection of scripts reconstructs the Antarctic circumpolar seasonal Sea-i
 ## Workflow
 The workflow is divided into the preprocessing of the data and the analyses. The raw data and preprocessed data are not provided due to their size but would be located in the data/ directory of this repository. The raw data are publicly available for download. 
 
- The scripts are provided in the scripts/ directory. This directory is divided into two directories, preprocessing/ and analysis/ to preprocess the raw data and to estimate the Sea-ice thickness, respectively. 
+ The scripts are provided in the scripts/ directory. This directory is divided into two sub-directories, preprocessing/ and analysis/ to preprocess the raw data and to estimate the Sea-ice thickness, respectively. 
 
 ## Preprocessing of data
 The preprocessing scripts are found in scripts/preprocessing/
@@ -28,5 +28,7 @@ The scripts to estimate Sea-ice thickness are found in scripts/analysis/
 
 # Data source
  The raw required to complete the reconstruction of Antarctic Sea-ice thickness demonstrated here are publicly available as follows:
- Kwok, R., G. Cunningham, T. Markus, D. Hancock, J. H. Morison, S. P. Palm, S. L. Farrell, A. Ivanoff, J. Wimert, and the 535 ICESat-2 Science Team. 2019. ATLAS/ICESat-2 L3A Sea Ice Freeboard, Version 2 [Indicate subset used]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed Active Archive Center. doi:https://doi.org/10.5067/ATLAS/ATL10.002. [Date Accessed]
+*Kwok, R., A. A. Petty, G. Cunningham, T. Markus, D. Hancock, A. Ivanoff, J. Wimert, M. Bagnardi, N. Kurtz, and  the ICESat-2 Science Team. (2021). ATLAS/ICESat-2 L3A Sea Ice Height, Version 5 [Data Set]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed Active Archive Center. https://doi.org/10.5067/ATLAS/ATL07.005. Date Accessed 09-25-2023.
+*European Space Agency, 2019, L2 SAR Precise Orbit. Baseline D. https://doi.org/10.5270/CR2-53hztdl
+*Markus, T., J. C. Comiso, and W. N. Meier. (2018). AMSR-E/AMSR2 Unified L3 Daily 25 km Brightness Temperatures & Sea Ice Concentration Polar Grids, Version 1 [Data Set]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed Active Archive Center. https://doi.org/10.5067/TRUIAL3WPAUP. Date Accessed 09-24-2023
  
