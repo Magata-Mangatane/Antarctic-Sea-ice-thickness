@@ -1,5 +1,5 @@
 # Antarctic-Sea-ice-thickness
-_Authors: Magata Mangatane , Marcello Vichi_
+_Authors: Magata J Mangatane , Marcello Vichi_
 
  This is a repository containing scripts to estimate Antarctic Sea-ice thickness with three algorithms. The algorithms have been used for the data analysis in Mangatane and Vichi (Submitted to The Cryosphere)
 
