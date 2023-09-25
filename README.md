@@ -3,7 +3,7 @@ _Authors: Magata Mangatane , Marcello Vichi_
 
  This is a repository containing scripts to estimate Antarctic Sea-ice thickness with three algorithms. The algorithms have been used for the data analysis in Mangatane and Vichi (Submitted to The Cryosphere)
 
-# Brief description
+## Brief description
 This collection of scripts reconstructs the Antarctic circumpolar seasonal Sea ice thickness with three innovative algorithms, namely. the improved One-Layer Method (OLMi), improved Buoyancy equation (BOC), and the freeboard differencing method (Diff method). The ice freeboard data used are from the ICESat-2 and CryoSat-2 satellites (see reference in the README.md)
 
 # Workflow
