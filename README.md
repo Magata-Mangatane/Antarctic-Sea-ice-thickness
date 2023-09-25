@@ -21,6 +21,7 @@ The preprocessing scripts are found in scripts/preprocessing/
 
 ## Analysis
 The scripts to estimate Sea-ice thickness are found in scripts/analysis/
+ 
  These are the different algorithms used:
  1. Estimation of SIT with the improved One-Layer Method is done here [OLMi_sit_estimation.py](scripts/analysis/OLMi_sit_estimation.py)
  2. Estimation of SIT with the improved Buoyancy equation is done here [BOC_sit_estimation.py](scripts/analysis/BOC_sit_estimation.py)
