@@ -7,7 +7,7 @@ Created on Fri Sep 22 13:54:15 2023
 
 #script to estimate sea-ice thickness with the improved One-Layer Method using ICESat-2 freeboards
 import os
-processed_data_path = 'E:/manuscript_1/data/processed_data/icesat_2_freeboards/'
+processed_data_path = 'data/processed_data/icesat_2_freeboards/'
 os.chdir(processed_data_path)
 #make necessary imports
 import xarray as xr
@@ -119,7 +119,7 @@ for i in range(0,4):
     month_name = month_names[i]
     year = years[i]
     ds_list = yearly_sit_list[i]
-    os.chdir('E:/manuscript_1/data/processed_data/OLMi_sit/'+str(year))
+    os.chdir('data/processed_data/OLMi_sit/'+str(year))
     for j in range(0,12):
         ds_list[j].to_netcdf(str(month_name[j])+'_OLMi_daily_gridded_sit.nc')
 

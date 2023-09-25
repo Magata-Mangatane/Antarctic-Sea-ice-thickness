@@ -7,7 +7,7 @@ Created on Fri Sep 22 15:58:46 2023
 
 #estimation of SIT and uncertainity with the improved buoyancy equation (BOC)
 import os
-processed_data_path = 'E:/manuscript_1/data/processed_data/icesat_2_freeboards/'
+processed_data_path = 'data/processed_data/icesat_2_freeboards/'
 os.chdir(processed_data_path)
 #make necessary imports
 import xarray as xr
@@ -122,7 +122,7 @@ for j in range(0,12):
 for i in range(0,1):
     month_name = month_names[i]
     year = years[i]
-    os.chdir('E:/manuscript_1/data/processed_data/BOC_sit/'+str(year))
+    os.chdir('data/processed_data/BOC_sit/'+str(year))
     for j in range(0,12):
         sit_list[j].to_netcdf(str(month_name[j])+'_BOC_daily_gridded_sit.nc')
 

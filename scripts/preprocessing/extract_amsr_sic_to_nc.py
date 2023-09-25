@@ -8,7 +8,7 @@ Created on Mon Mar 28 17:17:21 2022
 #script to extract amsr unified sic data to nc for weighing cs2 freeboards
 #set directory to sea ice concentration data 
 import os
-path = 'D:/manuscript_1/data/raw_data/amsre_sic/'
+path = 'data/raw_data/amsre_sic/'
 #make necessary imports
 import h5py
 import numpy as np
@@ -17,7 +17,7 @@ import glob
 import pandas as pd
 
 #set month names
-months = ['may','june','july','august','september','october','november','december']
+months = ["january","february","march","april","may","june","july","august","september","october","november","december"]
 
 #extract monthly data
 monthly_data = []
@@ -49,7 +49,7 @@ for j in range(len(months)):
         
 
 #save monthly datasets in netcdf format
-processed_data_path = 'D:/manuscript_1/data/processed_data/amsr_sic/'
+processed_data_path = 'data/processed_data/amsr_sic/'
 os.chdir(processed_data_path)
 
 for j in range(len(months)):

@@ -7,7 +7,7 @@ Created on Fri Sep 22 13:25:43 2023
 
 #script to extract and save ICESat-2 ATL20 freeboard data to netcdf file for processing 
 import os
-path = 'E:/manuscript_1/data/raw_data/icesat_2_freeboards/'
+path = 'data/raw_data/icesat_2_freeboards/'
 os.chdir(path+'/')
 #make necessary imports
 import h5py
@@ -135,7 +135,7 @@ for k in range(0,4):
     
 
 #save the monthly data to netcdf files
-processed_data_path = 'E:/manuscript_1/data/processed_data/icesat_2_freeboards/'
+processed_data_path = 'data/processed_data/icesat_2_freeboards/'
 for k in range(0,4):
     year = years[k]
     month = month_names[k]

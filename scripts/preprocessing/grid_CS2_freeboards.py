@@ -7,7 +7,7 @@ Created on Mon Mar  6 09:36:04 2023
 
 #This script grids cryosat-2 along-tract freeboards data onto a 25 km grids and weighs them with AMSRE Sea-ice concentration
 #set path to data and change into the folder 
-path = 'E:/manuscript_1/data/raw_data/cryosat_2_freeboards/'
+path = 'data/raw_data/cryosat_2_freeboards/'
 
 #Make other necessary imports  
 import os
@@ -161,7 +161,7 @@ for i in range(0,1):
 
 
 #save monthly data to a single nc file
-os.chdir('E:/manuscript_1/data/processed_data/cryosat_2_freeboards/')
+os.chdir('data/processed_data/cryosat_2_freeboards/')
 
 for i in range(0,12):
     monthly_data[i].to_netcdf('cs2_'+month_names[i]+'_circum_gridded_freeboard.nc')

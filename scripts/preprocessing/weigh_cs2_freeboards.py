@@ -7,7 +7,7 @@ Created on Sun Sep 24 21:20:33 2023
 
 #script to weigh cryosat-2 freeboard data with amsr sic data
 import os
-processed_data_path = 'D:/manuscript_1/data/processed_data/'
+processed_data_path = 'data/processed_data/'
 
 #Make other necessary imports  
 import xarray as xr 
@@ -16,7 +16,7 @@ import numpy as np
 import glob 
 
 #selected start changes the current month and associated date 
-months = ['may','june','july','august','september','october','november','december']
+months = ["january","february","march","april","may","june","july","august","september","october","november","december"]
 
 #extract data from he5 file to an xarray dataset
 weighted_monthly = []
@@ -25,7 +25,7 @@ for i in range(len(months)):
     fr = xr.open_dataset(processed_data_path+'cryosat_2_freeboards/'+months[i]+'_circum_gridded_freeboard.nc')
     weighted_daily_fr = []
     valid_dates = fr.time
-    filenames = glob.glob('D:/manuscript_1/data/raw_data/amsre_sic/'+months[i]+'/*.he5')
+    filenames = glob.glob('data/raw_data/amsre_sic/'+months[i]+'/*.he5')
     for x in range(len(valid_dates)):
         try:
             date = valid_dates[i]

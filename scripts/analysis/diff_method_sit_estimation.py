@@ -7,7 +7,7 @@ Created on Mon Sep 25 00:02:27 2023
 
 #script to estimation sea ice thickness with the freeboard differencing method
 import os
-processed_data_path = 'D:/manuscript_1/data/processed_data/'
+processed_data_path = 'data/processed_data/'
 
 #Make other necessary imports 
 import xarray as xr 
