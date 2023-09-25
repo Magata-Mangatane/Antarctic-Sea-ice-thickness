@@ -7,9 +7,9 @@ _Authors: Magata J Mangatane , Marcello Vichi_
 This collection of scripts reconstructs the Antarctic circumpolar seasonal Sea-ice thickness (SIT) with three innovative algorithms, namely, the improved One-Layer Method (OLMi), the improved Buoyancy equation (BOC), and the freeboard differencing method (Diff method). The ice freeboard data used are from the ICESat-2 and CryoSat-2 satellites covering the period 2019-2022 and 2019 only, respectively (see reference in the README.md)
 
 ## Workflow
-The workflow is divided into the preprocessing of the data and the analyses. The raw data and preprocessed data are not provided due to their size but would be located in the data/ directory of this repository. The raw data are publicly available for download. 
+The workflow is divided into the preprocessing of the data and the analyses. The raw data and preprocessed data are not provided due to their size but would be located in the [data/](data/) directory of this repository. The raw data are publicly available for download. 
 
- The scripts are provided in the scripts/ directory. This directory is divided into two sub-directories, preprocessing/ and analysis/ to preprocess the raw data and to estimate the Sea-ice thickness, respectively. 
+ The scripts are provided in the [scripts/](scripts/) directory. This directory is divided into two sub-directories, [preprocessing/](preprocessing/) and [analysis/](analysis/) to preprocess the raw data and to estimate the Sea-ice thickness, respectively. 
 
 ## Preprocessing of data
 The preprocessing scripts are found in scripts/preprocessing/
@@ -24,9 +24,9 @@ The preprocessing scripts are found in scripts/preprocessing/
 The scripts to estimate Sea-ice thickness are found in scripts/analysis/
  
  These are the different algorithms used:
- 1. Estimation of SIT with the improved One-Layer Method is done here [OLMi_sit_estimation.py](scripts/analysis/OLMi_sit_estimation.py)
- 2. Estimation of SIT with the improved Buoyancy equation is done here [BOC_sit_estimation.py](scripts/analysis/BOC_sit_estimation.py)
- 3. Estimation of SIT with the freeboard differencing method is done here [diff_method_sit_estimation.py](scripts/analysis/diff_method_sit_estimation.py)
+ 1. Estimation of SIT with the improved One-Layer Method is done here [(OLMi_sit_estimation.py)](scripts/analysis/OLMi_sit_estimation.py)
+ 2. Estimation of SIT with the improved Buoyancy equation is done here [(BOC_sit_estimation.py)](scripts/analysis/BOC_sit_estimation.py)
+ 3. Estimation of SIT with the freeboard differencing method is done here [(diff_method_sit_estimation.py)](scripts/analysis/diff_method_sit_estimation.py)
 
 ## Data source
 The raw data required to complete the reconstruction of Antarctic Sea-ice thickness demonstrated here are publicly available as follows:
