@@ -1,4 +1,4 @@
-# Antarctic-Sea-ice-thickness
+# Antarctic-Sea-ice-thickness: a repository of algorithms to reconstruction Antarctic Sea-ice thickness with satellite observations
 _Authors: Magata J Mangatane , Marcello Vichi_
 
  This is a repository containing scripts to estimate Antarctic Sea-ice thickness with three algorithms. The algorithms have been used for the data analysis in Mangatane and Vichi (Submitted to The Cryosphere)
