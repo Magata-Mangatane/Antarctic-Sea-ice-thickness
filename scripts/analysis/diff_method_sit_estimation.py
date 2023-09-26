@@ -199,15 +199,15 @@ for x in range(0,12):
                 x_r.append(2)
         if (distance ==0) & ( -15 <= time_sep < -10):
                 x_r.append(2)
-        if (distance >=0) & (-1 <= time_sep <= 1):
+        if (distance >0) & (-1 <= time_sep <= 1):
                 x_r.append(3)
-        if (distance >=0) & (1 < time_sep <= 10):
+        if (distance >0) & (1 < time_sep <= 10):
                 x_r.append(4)
-        if (distance >=0) & (-10 <= time_sep < -1):
+        if (distance >0) & (-10 <= time_sep < -1):
                 x_r.append(4)
-        if (distance >=0) & (10 < time_sep <= 15):
+        if (distance >0) & (10 < time_sep <= 15):
                 x_r.append(5)
-        if (distance >=0) & (-15 <= time_sep < -10):
+        if (distance >0) & (-15 <= time_sep < -10):
                 x_r.append(5)      
     flag_list.append(x_r)    
 
