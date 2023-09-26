@@ -172,8 +172,8 @@ for i in range(0,12):
     df_joined = df_joined.where(df_joined.distance < 36000.0)
     df_joined['snow_depth'] = (df_joined['IS2_freeboard'] - df_joined['CS2_freeboard'])/eta
     df_joined['time_separation'] = (df_joined['IS2_time'] - df_joined['time']).dt.days
-    df_joined = df_joined.where(df_joined.time_separation <= 15)
-    df_joined = df_joined.where(df_joined.time_separation >= -15)
+    df_joined = df_joined.where(df_joined.time_separation <= 10)
+    df_joined = df_joined.where(df_joined.time_separation >= -10)
     df_joined = df_joined.dropna()
     df_joined['thickness'] = (rhow/(rhow-rhoi))*df_joined['IS2_freeboard'] + ((rhos-rhow)/(rhow-rhoi))*df_joined['snow_depth']
     dates = df_joined['IS2_time'].groupby(df_joined['IS2_time'].dt.floor('d')).size().reset_index(name='count')
@@ -199,15 +199,15 @@ for x in range(0,12):
                 x_r.append(2)
         if (distance ==0) & ( -15 <= time_sep < -10):
                 x_r.append(2)
-        if (distance >0) & (-1 <= time_sep <= 1):
+        if (distance >=0) & (-1 <= time_sep <= 1):
                 x_r.append(3)
-        if (distance >0) & (1 < time_sep <= 10):
+        if (distance >=0) & (1 < time_sep <= 10):
                 x_r.append(4)
-        if (distance >0) & (-10 <= time_sep < -1):
+        if (distance >=0) & (-10 <= time_sep < -1):
                 x_r.append(4)
-        if (distance >0) & (10 < time_sep <= 15):
+        if (distance >=0) & (10 < time_sep <= 15):
                 x_r.append(5)
-        if (distance >0) & (-15 <= time_sep < -10):
+        if (distance >=0) & (-15 <= time_sep < -10):
                 x_r.append(5)      
     flag_list.append(x_r)    
 
