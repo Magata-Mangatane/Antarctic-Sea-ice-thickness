@@ -28,7 +28,7 @@ for i in range(len(months)):
     filenames = glob.glob('data/raw_data/amsre_sic/'+months[i]+'/*.he5')
     for x in range(len(valid_dates)):
         try:
-            date = valid_dates[i]
+            date = valid_dates[x]
             dailysic = sic.sel(time=date)
             dailyfr = fr.sel(time=date)
             weighted_fr = dailyfr.freeboard*(dailysic.concentration/100)
@@ -49,7 +49,7 @@ for i in range(len(months)):
                 )
             weighted_daily_fr.append(ds)
         except:            
-            date = valid_dates[i]
+            date = valid_dates[x]
             meansic = sic.concentration.mean('time') 
             meanweighted_fr = fr.sel(time=date)
             meanweighted_fr = meanweighted_fr.freeboard*(meansic/100)
