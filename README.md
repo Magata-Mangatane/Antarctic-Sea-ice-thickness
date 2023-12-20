@@ -1,7 +1,7 @@
 # Antarctic-Sea-ice-thickness: a repository of algorithms to reconstruct Antarctic Sea-ice thickness with satellite observations
 _Authors: Magata J Mangatane , Marcello Vichi_
 
- This is a repository containing scripts to estimate Antarctic Sea-ice thickness with three algorithms. The algorithms have been used for the data analysis in Mangatane and Vichi (Submitted to The Cryosphere)
+ This is a repository containing scripts to estimate Antarctic Sea-ice thickness with three algorithms. The algorithms have been used for the data analysis in Mangatane and Vichi (Submitted to the Journal of Geophysical Research)
 
 ## Brief description
 This collection of scripts reconstructs the Antarctic circumpolar seasonal Sea-ice thickness (SIT) with three innovative algorithms, namely, the improved One-Layer Method (OLMi), the improved Buoyancy equation (BOC), and the freeboard differencing method (Diff method). The sea-ice freeboard data used are from the ICESat-2 and CryoSat-2 satellites covering the period 2019-2022 and 2019 only, respectively (see reference in the README.md)
