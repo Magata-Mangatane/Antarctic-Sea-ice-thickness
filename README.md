@@ -35,7 +35,7 @@ The raw data required to complete the reconstruction of Antarctic Sea-ice thickn
 * Markus, T., J. C. Comiso, and W. N. Meier. (2018). AMSR-E/AMSR2 Unified L3 Daily 25 km Brightness Temperatures & Sea Ice Concentration Polar Grids, Version 1 [Data Set]. Boulder, Colorado USA. NASA National Snow and Ice Data Center Distributed Active Archive Center. https://doi.org/10.5067/TRUIAL3WPAUP. Date Accessed 09-24-2023
 
 ## References
-Below are references to public repositories central to the methods presented in this repository. 
+Below are references to public repositories that were adopted to the methods presented in this repository. 
 * Anthony Arendt, Ben Smith, David Shean, Amy Steiker, Alek Petty, Fernando Perez, Scott Henderson, Fernando Paolo, Johan Nilsson, Maya Becker, Susheel Adusumilli, Daniel Shapero, Bruce Wallin, Axel Schweiger, Suzanne Dickinson, Nicholas Hoschuh, Matthew Siegfried, Thomas Neumann. (2019). ICESAT-2HackWeek/ICESat2_hackweek_tutorials (Version 1.0). Zenodo. http://doi.org/10.5281/zenodo.3360994
 * Jack Landy (2022) “jclandy/CryoSat2_Summer_SIT: CryoSat2_Summer_SIT_2022”. Zenodo. doi: 10.5281/zenodo.6558483.
 
