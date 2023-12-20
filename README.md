@@ -37,6 +37,6 @@ The raw data required to complete the reconstruction of Antarctic Sea-ice thickn
 ## References
 Below are references to public repositories central to the methods presented in this repository. 
 * Anthony Arendt, Ben Smith, David Shean, Amy Steiker, Alek Petty, Fernando Perez, Scott Henderson, Fernando Paolo, Johan Nilsson, Maya Becker, Susheel Adusumilli, Daniel Shapero, Bruce Wallin, Axel Schweiger, Suzanne Dickinson, Nicholas Hoschuh, Matthew Siegfried, Thomas Neumann. (2019). ICESAT-2HackWeek/ICESat2_hackweek_tutorials (Version 1.0). Zenodo. http://doi.org/10.5281/zenodo.3360994
-* 
+* Jack Landy (2022) “jclandy/CryoSat2_Summer_SIT: CryoSat2_Summer_SIT_2022”. Zenodo. doi: 10.5281/zenodo.6558483.
 
  
