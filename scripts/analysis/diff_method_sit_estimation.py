@@ -172,8 +172,8 @@ for i in range(0,12):
     df_joined = df_joined.where(df_joined.distance < 36000.0)
     df_joined['snow_depth'] = (df_joined['IS2_freeboard'] - df_joined['CS2_freeboard'])/eta
     df_joined['time_separation'] = (df_joined['IS2_time'] - df_joined['time']).dt.days
-    df_joined = df_joined.where(df_joined.time_separation <= 10)
-    df_joined = df_joined.where(df_joined.time_separation >= -10)
+    df_joined = df_joined.where(df_joined.time_separation <= 15)
+    df_joined = df_joined.where(df_joined.time_separation >= -15)
     df_joined = df_joined.dropna()
     df_joined['thickness'] = (rhow/(rhow-rhoi))*df_joined['IS2_freeboard'] + ((rhos-rhow)/(rhow-rhoi))*df_joined['snow_depth']
     dates = df_joined['IS2_time'].groupby(df_joined['IS2_time'].dt.floor('d')).size().reset_index(name='count')

@@ -36,7 +36,7 @@ for k in range(0,4):
     os.chdir(processed_data_path+str(year)+'/')
     monthly_list = []
     for i in range(0,12):
-        ds = xr.open_dataset(str(year)+'_'+str(names[j])+'_IS-2_daily_gridded_freeboard.nc')
+        ds = xr.open_dataset(str(year)+'_'+str(names[i])+'_IS-2_daily_gridded_freeboard.nc')
         monthly_list.append(ds)
     yearly_ds_list.append(monthly_list)
     
