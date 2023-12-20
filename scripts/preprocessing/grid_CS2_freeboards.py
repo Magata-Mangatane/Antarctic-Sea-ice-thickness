@@ -21,7 +21,8 @@ from scipy import stats
 
 #run the script for each month by changing the month name and directory below
 #selected start changes the current month and associated date 
-month_names = ['january','february','march','april','may','june','july','august','september','october','november','december']
+month_names = ['january','february','march','april','may','june','july','august','september','october','november','december'] #month names to change to SAR folder
+month_names_SIN = ['january_SIN','february_SIN','march_SIN','april_SIN','may_SIN','june_SIN','july_SIN','august_SIN','september_SIN','october_SIN','november_SIN','december_SIN'] #month names to change to SIN folder
 month_dates = ["201901","201902","201903","201904","201905","201906","201907","201908","201909","201910","201911","201912"]
 
 #define function to generate 25 km grid coordinates
@@ -80,16 +81,19 @@ mapProj = pyproj.Proj("+init=EPSG:3976")
 #define empty array for holding monthly data then merge into one file for the month
 monthly_data = []
 
-for i in range(0,1):
+for i in range(0,12):
     data = []
-    month_date = month_dates[i] ; month_name = month_names[i]
+    month_date = month_dates[i] ; month_name = month_names_SIN[i]
     os.chdir(path+month_name)
-    for x in range(9,11):
+    for x in range(1,32):
         if x < 10:
             try:
-                files = glob.glob('CS_LTA__SIR_SAR_2__'+month_date+'0'+ str(x) + '*.nc')
+                files = glob.glob('CS_*_SIR_SIN_2__'+month_date+'0'+str(x)+'*.nc')
                 ds_list = [xr.open_dataset(file) for file in files]
-                ds_list = [ds_list[i].freeboard_20_ku for i in range(len(ds_list))]
+                os.chdir(path+month_names[i])
+                files= glob.glob('CS_*_SIR_SAR_2__'+month_date+'0'+str(x)+'*.nc')
+                ds_list = ds_list + [xr.open_dataset(file) for file in files]
+                #ds_list = [ds_list[i].freeboard_20_ku for i in range(len(ds_list))]
                 ds = xr.merge(ds_list)
                 ds = ds.freeboard_20_ku
                 ds = ds.where(ds > 0, drop=True)
@@ -123,9 +127,11 @@ for i in range(0,1):
                   pass
         else:
             try:
-                files = glob.glob('CS_LTA__SIR_SAR_2__'+month_date+ str(x) + '*.nc')
+                files = glob.glob('CS_*_SIR_SIN_2__'+month_date+str(x)+'*.nc')
                 ds_list = [xr.open_dataset(file) for file in files]
-                ds_list = [ds_list[i].freeboard_20_ku for i in range(len(ds_list))]
+                os.chdir(path+month_names[i])
+                files = glob.glob('CS_*_SIR_SAR_2__'+month_date+str(x)+'*.nc')
+                ds_list = ds_list + [xr.open_dataset(file) for file in files]
                 ds = xr.merge(ds_list)
                 ds = ds.freeboard_20_ku
                 ds = ds.where(ds > 0, drop=True)
@@ -157,10 +163,10 @@ for i in range(0,1):
                 data.append(ds)
             except:
                   pass
-    monthly_data.append(xr.merge(data)) 
+    monthly_data.append(xr.merge(data))
 
 
-#save monthly data to a single nc file
+#save monthly data in a single netcdf file
 os.chdir('data/processed_data/cryosat_2_freeboards/')
 
 for i in range(0,12):

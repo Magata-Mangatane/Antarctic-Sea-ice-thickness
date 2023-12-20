@@ -5,7 +5,7 @@ Created on Mon Mar 28 17:17:21 2022
 @author: mngma
 """
 
-#script to extract amsr unified sic data to nc for weighing cs2 freeboards
+#script to extract amsr unified sic data to nc to weigh gridded cs2 freeboards
 #set directory to sea ice concentration data 
 import os
 path = 'data/raw_data/amsre_sic/'

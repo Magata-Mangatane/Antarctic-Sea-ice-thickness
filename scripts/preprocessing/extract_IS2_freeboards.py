@@ -5,10 +5,10 @@ Created on Fri Sep 22 13:25:43 2023
 @author: mngma
 """
 
-#script to extract and save ICESat-2 ATL20 freeboard data to netcdf file for processing 
+#script to extract and save ICESat-2 ATL20 freeboard data in netcdf format
 import os
 path = 'data/raw_data/icesat_2_freeboards/'
-os.chdir(path+'/')
+os.chdir(path)
 #make necessary imports
 import h5py
 import numpy as np
