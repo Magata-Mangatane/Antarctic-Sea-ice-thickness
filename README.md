@@ -16,24 +16,25 @@ The workflow is divided into the preprocessing of the data and the analysis. The
 The preprocessing scripts are found in [scripts/preprocessing/](scripts/preprocessing/)
 
  Below are the preprocessing steps:
- 1. Extract ICESat-2 freeboard data from HDF files to NetCDF file format ([extract_IS2_freeboards.py](scripts/analysis/preprocessing/extract_IS2_freeboards.py))
- 2. Extract AMSR Sea-ice concentration data from He5 to NetCDF file format ([extract_amsr_sic_to_nc.py](scripts/analysis/preprocessing/extract_amsr_sic_to_nc.py))
- 3. Grid CryoSat-2 data to a daily 25 km polar stereographic grid ([grid_CS2_freeboards.py](scripts/analysis/preprocessing/grid_CS2_freeboards.py))
- 4. Weigh CryoSat-2 data with AMSR data ([weigh_cs2_freeboards.py](scripts/analysis/preprocessing/weigh_cs2_freeboards.py))
+ 1. Extract ICESat-2 freeboard data from HDF files to NetCDF file format ([extract_IS2_freeboards.py](scripts/preprocessing/extract_IS2_freeboards.py))
+ 2. Extract AMSR Sea-ice concentration data from He5 to NetCDF file format ([extract_amsr_sic_to_nc.py](scripts/preprocessing/extract_amsr_sic_to_nc.py))
+ 3. Grid CryoSat-2 data to a daily 25 km polar stereographic grid ([grid_CS2_freeboards.py](scripts/preprocessing/grid_CS2_freeboards.py))
+ 4. Weigh CryoSat-2 data with AMSR data ([weigh_cs2_freeboards.py](scripts/preprocessing/weigh_cs2_freeboards.py))
+ 5. Regrid AMSR snow depths onto the 25 km polar stereographic grid ([regrid_snow_depth_to_is2_grid.py](scripts/preprocessing/regrid_snow_depth_to_is2_grid.py))
 
 ## Analysis
 The scripts to estimate Sea-ice thickness are found in [scripts/analysis/](scripts/analysis/)
  
  These are the different algorithms used:
- 1. Estimation of SIT with the Zero sea-ice freeboard method
- 2. Estimation of SIT with the Empirical relationship method
- 3. Estimation of SIT with the Buoyancy equation and empirical relationship ([BOC_sit_estimation.py](scripts/analysis/BOC_sit_estimation.py))
- 4. Estimation of SIT with the One-Layer Method ([OLMi_sit_estimation.py](scripts/analysis/OLMi_sit_estimation.py))
- 5. Estimation of SIT with the Sea Ice Climate Change Initiative method
- 6. Estimation of SIT with the freeboard differencing method ([diff_method_sit_estimation.py](scripts/analysis/diff_method_sit_estimation.py))
+ 1. Estimation of SIT with the Zero sea-ice freeboard method ([ZIF.py](scripts/analysis/ZIF.py))
+ 2. Estimation of SIT with the Empirical relationship method ([ERM_and_OLM.py](scripts/analysis/ERM_and_OLM.py))
+ 3. Estimation of SIT with the Buoyancy equation and empirical relationship ([BERM.py](scripts/analysis/BERM.py))
+ 4. Estimation of SIT with the One-Layer Method ([ERM_and_OLM.py](scripts/analysis/ERM_and_OLM.py))
+ 5. Estimation of SIT with the Sea Ice Climate Change Initiative method ([SICC.py](scripts/analysis/SICC.py))
+ 6. Estimation of SIT with the freeboard differencing method ([FDM.py](scripts/analysis/FDM.py))
 
 # Key figures
-The scripts to plot key figures from the manuscript are found in 
+The scripts to plot key figures from the manuscript are found in the ([figures](scripts/figures)) folder
 
 ## Data sources
 The raw data required to complete the reconstruction of Antarctic Sea-ice thickness demonstrated here are publicly available as follows:
