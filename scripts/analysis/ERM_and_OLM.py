@@ -1,44 +1,56 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Sep 22 13:54:15 2023
+Created on Tue Jul 30 17:01:04 2024
 
 @author: mngma
 """
 
 #script to estimate sea-ice thickness with the improved One-Layer Method using ICESat-2 freeboards
+
+#import packages
 import os
-processed_data_path = 'data/processed_data/icesat_2_freeboards/'
-os.chdir(processed_data_path)
-#make necessary imports
 import xarray as xr
 
-#run the script for each month by changing the month name and directory below
-#first define empty lists to hold dates and filenames
-month_names = [[],[],[],[]]
+path = 'processed_data/IS-2_freeboards/'
+destination_dir = 'processed_data/OLM/'
 
-#define the year and month names
-years = ["2019","2020","2021","2022"]
+os.chdir(path)
+
+#first define empty lists to hold dates and filenames for the 5 years
+month_names = [[],[],[],[],[]]
+years = ["2019","2020","2021","2022","2023"]
 nums = ["01","02","03","04","05","06","07","08","09","10","11","12"]
 names = ["january","february","march","april","may","june","july","august","september","october","november","december"]
 
-#sort the month names according to the years
-for i in range(0,4):
+#sort the month names according to the years and only computing 11 months in 2023 due to lack of december data 
+for i in range(0,5):
     month_name = month_names[i]
     year = years[i]
-    for j in range(0,12):
-        month_name.append(str(year)+"_"+str(names[j]))
+    if i ==4:
+        for j in range(0,11):
+            month_name.append(str(year)+"_"+str(names[j]))
+    else:
+        for j in range(0,12):
+            month_name.append(str(year)+"_"+str(names[j]))
 
 #load freeboard data  
-yearly_ds_list = []   #empty list to hold the datasets
+yearly_ds_list = []   #empty list to hold the freeboard datasets
 
-for k in range(0,4):
+for k in range(0,5):
     year = years[k]
-    os.chdir(processed_data_path+str(year)+'/')
+    os.chdir(path+str(year)+'/')
     monthly_list = []
-    for i in range(0,12):
-        ds = xr.open_dataset(str(year)+'_'+str(names[i])+'_IS-2_daily_gridded_freeboard.nc')
-        monthly_list.append(ds)
-    yearly_ds_list.append(monthly_list)
+    if k==4:
+        for i in range(0,11):
+            ds = xr.open_dataset(str(year)+'_'+str(names[i])+'_IS-2_gridded_daily_freeboard.nc')
+            monthly_list.append(ds)
+        yearly_ds_list.append(monthly_list)
+    else:
+        for i in range(0,12):
+            ds = xr.open_dataset(str(year)+'_'+str(names[i])+'_IS-2_gridded_daily_freeboard.nc')
+            monthly_list.append(ds)
+        yearly_ds_list.append(monthly_list)
+
         
 #convert freeboard to thickness
 #define densities 
@@ -58,9 +70,10 @@ WW = [-60,-45] # Weddell West
 WE = [-45,20]   # Weddell East
 IO = [20,90]   # Indian Ocean
 PA = [90,160]  # Pacific Ocean
-RS_1 = [-180,-130] # Ross Sea
-RS_2 = [160,180] # Ross Sea
 AB = [-130,-60] # Amundsen/Bellingshausen Seas
+#separate the Ross Sea into two to avoid an issue related to the longitude format (i.e. -180 to 180)
+RS_1 = [-180,-130] # Ross Sea
+RS_2 = [160,180]
 
 region = [WW,WE,IO,PA,RS_1,RS_2,AB]
 
@@ -84,9 +97,10 @@ for yearly_sit in yearly_ds_list:
             berror = 0.3*b ; derror = 0.3*d
             fr = fr_ds.freeboard
             fr =  (fr.where((fr.lons >region[i][0])&(fr.lons <region[i][1])))
-            stdfr = fr_ds.standard_deviation ; stdfr = stdfr**(0.5)
-            #estimate the thickness
-            I = (a+b*fr) ; S = (c+d*fr) ; S = S.where(S>0) ;R = I/S
+            stdfr = fr_ds.standard_deviation
+            #estimate the thickness with ERM first and then OLM 
+            I = (a+b*fr) ; S = (c+d*fr) ; S = S.where(S>0) 
+            R = I/S
             rhosi = (R*rhoi+rhos)/(R + 1)
             thickness = fr*(((rhow)/(rhow - rhosi))*(R/(R+1)))
             thickness = thickness.where((thickness > 0) & (thickness < 12))
@@ -106,63 +120,28 @@ for yearly_sit in yearly_ds_list:
             std_Ti_constant = varrhow + varrhoi + varrhos + varfr_cons + vara + varb + varc + vard
             varrhow=varrhow.rename('rhow') ; varrhoi=varrhoi.rename('rhoi') ; varrhos=varrhos.rename('rhos') ;varfr_cons= varfr_cons.rename('varfr_cons') ; vara=vara.rename('vara') ; varb=varb.rename('varb') ;varc= varc.rename('varc') ; vard=vard.rename('vard'); varfr=varfr.rename('varfr')
             std_Ti_constant = (std_Ti_constant)**(1/2)
+            #also computing uncertainity with a constant sea-ice freeboard = 0.05 m
             std_Ti_constant = std_Ti_constant.rename('olmi_uncert_constant_fr_error')
             stdfr = stdfr.rename('fr_standard_deviation')
-            m_ds = xr.merge([thickness,fr,stdfr,std_Ti,std_Ti_constant,varrhow, varrhoi,varrhos,varfr,vara,varb,varc,vard,varfr_cons])
+            Ivariance = (aerror**2)+(berror**2)*(fr.rename('calc')**2)+(stdfr.rename('calc')**2)*(b**2)
+            Ierror = Ivariance**(1/2) ; Ierror = Ierror.rename('ERM_uncertainity') 
+            m_ds = xr.merge([thickness,std_Ti,fr,stdfr,I.rename('I'),S.rename('S'),Ierror])
             ds_list.append(m_ds)
         sit_list.append(xr.merge(ds_list))
     yearly_sit_list.append(sit_list)
     
 
 #save monthly data to a single nc file
-for i in range(0,4):
+for i in range(0,5):
     month_name = month_names[i]
     year = years[i]
     ds_list = yearly_sit_list[i]
-    os.chdir('data/processed_data/OLMi_sit/'+str(year))
-    for j in range(0,12):
-        ds_list[j].to_netcdf(str(month_name[j])+'_OLMi_daily_gridded_sit.nc')
-
+    os.chdir(destination_dir+'/'+str(year)+'/')
+    if i == 4:
+        for j in range(0,11):
+            ds_list[j].to_netcdf(str(month_name[j])+'_OLMi_daily_gridded_sit.nc')
+    else:
+        for j in range(0,12):
+            ds_list[j].to_netcdf(str(month_name[j])+'_OLMi_daily_gridded_sit.nc')
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

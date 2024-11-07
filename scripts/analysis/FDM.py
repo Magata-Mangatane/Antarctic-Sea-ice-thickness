@@ -1,22 +1,24 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Sep 25 00:02:27 2023
+Created on Thu Aug 29 15:16:49 2024
 
-@author: MNGMA
+@author: mngma
 """
 
-#script to estimation sea ice thickness with the freeboard differencing method
+#script to estimate SIT with the FDM 
 import os
-processed_data_path = 'data/processed_data/'
+path = 'processed_data/'
+destination_dir = 'processed_data/'
 
 #Make other necessary imports 
 import xarray as xr 
 import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.neighbors import KDTree
 import pyproj
 
-#define functions to be used for finding the nearest neighbours and gridding the data
+#define functions to be used later
 #define grid for data
 def create_grid_nsidc(epsg_string='3976', nx=316, ny=332, leftx=-3950000, dxRes=25000, uppery=4350000, dyRes=25000):
     """ Use pyproj to generate the NSIDC South Polar Stereographic grid covering the given domain (defined by the projection and the corner lat/lons)"""
@@ -126,85 +128,75 @@ def nearest_neighbor(left_gdf, right_gdf, return_dist=False):
 
     return closest_points
 
-#define month names and empty lists to hold the monthly data
+
 month_names = ['january','february','march','april','may','june','july','august','september','october','november','december']
 
-df1_list = []   # this list holds the cs2 freeboards
-df2_list = []   # this list holds the is2 freeboards
-joined_list = [] # this list holds estimated sea ice thickness data 
+df1_list = []
+df2_list = []
+joined_list = []
 dates_list = []
 
-os.chdir('data/processed_data/amsr_weighted_cs2_freeboards/')
-for i in range(0,12):
+#handling each year separately since the processing here can be heavy. This shows an example for the 2023 year 
+
+os.chdir(destination_dir+'/CS-2_freeboards/2023/')
+filenames = []
+for i in range(0,11):
+    filenames.append('2023_cs2_'+month_names[i]+'_circum_gridded_freeboard.nc')
+
+os.chdir(destination_dir+'/CS-2_freeboards/2023')
+for i in range(0,11):
     if  i == 0:
-        ds1 = xr.open_dataset(month_names[i]+'_cs2_amsr_weighted_SAR_SIN_freeboard.nc')
-        ds1 = ds1.to_dataframe()
+        ds1 = xr.open_mfdataset([filenames[11],filenames[0],filenames[1]])
+        ds1 = ds1.to_dataframe().reset_index().drop(columns=['x','y'])
         ds1.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ;
         ds1 = ds1.dropna()
-        extend = xr.open_dataset(str('february')+ '_cs2_amsr_weighted_SAR_SIN_freeboard.nc')
-        extend = extend.to_dataframe()
-        extend.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ; extend = extend.dropna()
-        extend_1 = xr.open_dataset(str('december')+ '_cs2_amsr_weighted_SAR_SIN_freeboard.nc')
-        extend_1 = extend_1.to_dataframe()
-        extend_1.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ; extend_1 = extend_1.dropna()
-        ds1 = pd.concat([ds1,extend,extend_1]).reset_index().drop(columns=['x','y'])
+        ds1.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ; ds1 = ds1.dropna()
         df1_list.append(ds1)
     if  i == 11:
-        ds1 = xr.open_dataset(month_names[i]+'_cs2_amsr_weighted_SAR_SIN_freeboard.nc')
-        ds1 = ds1.to_dataframe()
+        ds1 = xr.open_mfdataset([filenames[10],filenames[11],filenames[0]])
+        ds1 = ds1.to_dataframe().reset_index().drop(columns=['x','y'])
+        ds1.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ;
+        ds1 = ds1.dropna()
         ds1.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ; ds1 = ds1.dropna()
-        extend = xr.open_dataset(str('january')+ '_cs2_amsr_weighted_SAR_SIN_freeboard.nc')
-        extend = extend.to_dataframe()
-        extend.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ; extend = extend.dropna()
-        extend_1 = xr.open_dataset(str('november')+ '_cs2_amsr_weighted_SAR_SIN_freeboard.nc')
-        extend_1 = extend_1.to_dataframe()
-        extend_1.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ; extend_1 = extend_1.dropna()
-        ds1 = pd.concat([ds1,extend,extend_1]).reset_index().drop(columns=['x','y'])
         df1_list.append(ds1)
     if 0 < i < 11:
-        ds1 = xr.open_dataset(month_names[i]+'_cs2_amsr_weighted_SAR_SIN_freeboard.nc')
-        ds1 = ds1.to_dataframe()
+        ds1 = xr.open_mfdataset([filenames[i-1],filenames[i],filenames[i+1]])
+        ds1 = ds1.to_dataframe().reset_index().drop(columns=['x','y'])
+        ds1.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ;
+        ds1 = ds1.dropna()
         ds1.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ; ds1 = ds1.dropna()
-        extend = xr.open_dataset(str(month_names[i-1])+ '_cs2_amsr_weighted_SAR_SIN_freeboard.nc')
-        extend = extend.to_dataframe()
-        extend.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ; extend = extend.dropna()
-        extend_1 = xr.open_dataset(str(month_names[i+1])+ '_cs2_amsr_weighted_SAR_SIN_freeboard.nc')
-        extend_1 = extend_1.to_dataframe()
-        extend_1.rename(columns={'freeboard':'CS2_freeboard'},inplace= True) ; extend_1 = extend_1.dropna()
-        ds1 = pd.concat([ds1,extend,extend_1]).reset_index().drop(columns=['x','y'])
         df1_list.append(ds1)
 
-os.chdir('data/processed_data/OLMi_sea_ice_thickness/')
-for i in range(0,12):
-    ds2 = xr.open_dataset('2019_'+str(month_names[i])+'_IS-2_gridded_daily_sit_from_OLM_and_OLMi.nc')
+os.chdir(destination_dir+'/IS-2_freeboards/2023/')
+for i in range(0,11):
+    ds2 = xr.open_dataset('2023_'+str(month_names[i])+'_IS-2_gridded_daily_freeboard.nc')
     ds2 = ds2.to_dataframe().dropna().reset_index().drop(columns=['x','y'])
-    ds2.rename(columns={'freeboard':'IS2_freeboard'},inplace= True)
+    ds2.rename(columns={'freeboard':'IS2_freeboard', 'standard_deviation':'fr_standard_deviation'},inplace= True)
     ds2 = ds2.rename(columns={"lons" : "lon","lats" : "lat", 'time' : 'IS2_time'})
     df2_list.append(ds2)
     
+    
 
-rhow = 1024 # sea water density in kg/m^3
-rhoi = 917 # sea ice density in kg/m^3
-rhos = 320 # snow density in kg/m^3
+rhow = 1024
+rhoi = 917
+rhos = 320 #kg.m^-3
+eta = (1 + (0.51*rhos)/1000)**(1.5)
 
-eta = (1 + (0.51*rhos)/1000)**(1.5)  # refractive index
-
-ierror = 15 # sea ice density error in kg/m^3
-serror = 100 # snow density error in kg/m^3
-werror = 3 # sea water density error in kg/m^3
+ierror = 15 #kg/m^3
+serror = 100 #kg/m^3
+werror = 3 #kg/m^3
 
 
-for i in range(0,12):
+for i in range(0,11):
     closest_grids = nearest_neighbor(df2_list[i], df1_list[i], return_dist=True)
     df_joined = closest_grids.join(df2_list[i])
-    df_joined = df_joined.where(df_joined.distance < 36000.0)   # limit separation in space to the eight neighbouring grid boxes
-    df_joined['snow_depth'] = (df_joined['IS2_freeboard'] - df_joined['CS2_freeboard'])/eta   # estimate the snow depth 
+    df_joined = df_joined.where(df_joined.distance < 36000.0)
+    df_joined['snow_depth'] = (df_joined['IS2_freeboard'] - df_joined['CS2_freeboard'])/eta
     df_joined['time_separation'] = (df_joined['IS2_time'] - df_joined['time']).dt.days
-    df_joined = df_joined.where(df_joined.time_separation <= 10)  # limit time separation to 10 days
-    df_joined = df_joined.where(df_joined.time_separation >= -10) # limit time separation to 10 days
+    df_joined = df_joined.where(df_joined.time_separation <= 10)
+    df_joined = df_joined.where(df_joined.time_separation >= -10)
     df_joined = df_joined.dropna()
-    df_joined['thickness'] = (rhow/(rhow-rhoi))*df_joined['IS2_freeboard'] + ((rhos-rhow)/(rhow-rhoi))*df_joined['snow_depth']  # estimate the ice thickness
-    # below is the uncertainity estimation (see S1 for details)
+    df_joined['thickness'] = (rhow/(rhow-rhoi))*df_joined['IS2_freeboard'] + ((rhos-rhow)/(rhow-rhoi))*df_joined['snow_depth']
     df_joined['varfi'] = (rhow-rhos)/(eta*(rhow-rhoi))
     df_joined['varf'] = (rhos+(eta-1)*rhow)/(eta*(rhow-rhoi))
     df_joined['varrhow'] = ((df_joined['CS2_freeboard']*(rhos-rhoi))-(df_joined['IS2_freeboard']*((eta-1)*rhoi+rhos)))/(eta*(rhow-rhoi)**(2))
@@ -222,67 +214,84 @@ for i in range(0,12):
     joined_list.append(df_joined)
 
 
+flag_list = []
+for x in range(0,11):
+    x_r = []
+    dsd = np.array(joined_list[x]['distance'])
+    dse = np.array(joined_list[x]['time_separation'])
+    for i in range(0,(joined_list[x]['distance'].size)):
+        distance = dsd[i]
+        time_sep = dse[i]
+        if (distance ==0) & (-1 <= time_sep <= 1):
+                x_r.append(0)
+        if (distance ==0) & (1 < time_sep <= 10):
+                x_r.append(1)
+        if (distance ==0) & (-10 <= time_sep < -1):
+                x_r.append(1)
+        if (distance ==0) & ( 10 < time_sep <= 15):
+                x_r.append(2)
+        if (distance ==0) & ( -15 <= time_sep < -10):
+                x_r.append(2)
+        if (distance >0) & (-1 <= time_sep <= 1):
+                x_r.append(3)
+        if (distance >0) & (1 < time_sep <= 10):
+                x_r.append(4)
+        if (distance >0) & (-10 <= time_sep < -1):
+                x_r.append(4)
+        if (distance >0) & (10 < time_sep <= 15):
+                x_r.append(5)
+        if (distance >0) & (-15 <= time_sep < -10):
+                x_r.append(5)      
+    flag_list.append(x_r)    
+
 
 ds_list = []
-for i in range(0,12):
+for i in range(0,11):
     dsd_list = []
     df = joined_list[i]
+    df['flags'] = flag_list[i]
     dates = dates_list[i]
     for x in range(0,(dates['IS2_time'].size)):
         daydata = df[(df['IS2_time'] == str(dates['IS2_time'][x]))]
         x10, y10=mapProj(daydata['lon'], daydata['lat'])
-        varU=bin_data(x10, y10, daydata['uncertainity'], xptsG, yptsG, dx)  #uncertainity variable
+
+        varF=bin_data(x10, y10, daydata['uncertainity'], xptsG, yptsG, dx)  #freeboard variable
+        #print(varT.shape)
         varS = bin_data(x10, y10, daydata['snow_depth'], xptsG, yptsG, dx)  #snow depth variable
         varT = bin_data(x10, y10, daydata['thickness'], xptsG, yptsG, dx)   #thickness variable
+        varFg = bin_data(x10, y10, daydata['flags'], xptsG, yptsG, dx)      #flags
         #expand dimension to add day
         sn_depth = np.expand_dims(varS,2)
-        sit = np.expand_dims(varT,2)
+        fr1 = np.expand_dims(varT,2)
         date = pd.date_range(dates['IS2_time'][x],periods=1)
-        uncert = np.expand_dims(varU,2)
+        fr2 = np.expand_dims(varF,2)
+        flgs = np.expand_dims(varFg,2)
         #create dataset
         ds = xr.Dataset(
             data_vars=dict(
-                sea_ice_thickness=(["x", "y","time"], sit),
+                sea_ice_thickness=(["x", "y","time"], fr1),
                 snow_depth=(["x", "y","time"], sn_depth),
-                uncertainity=(["x", "y","time"], uncert),
+                flags=(["x", "y","time"], flgs),
+                uncertainity=(["x", "y","time"], fr2),
                 ),
             coords=dict(
                 lons=(["x", "y"], lonG),
                 lats=(["x", "y"], latG),
                 time = date,
                 ),
-            attrs=dict(description='sea_ice_thickness estimated with the freeboard differencing method',comment='data gridded on 25 km NSIDC South stereographic grid'),
+            attrs=dict(description='CS-2 2023 gridded data',comment='data gridded on 25 km NSIDC South stereographic grid'),
             )
         dsd_list.append(ds)    
     mds = xr.merge(dsd_list)
     ds_list.append(mds)    
 
 
-#quick look at a monthly map
-ds1 = ds_list[3].mean('time')
+ds1 = ds_list[9].mean('time')
 sit = ds1.sea_ice_thickness
 plt.pcolormesh(sit.lons,sit.lats,sit); plt.colorbar()
 
-os.chdir('data/processed_data/diff_method_sit/')
+os.chdir(destination_dir+'/FDM/2023')
 
-for i in range(0,12):
+for i in range(0,11):
     ds = ds_list[i]
-    ds.to_netcdf(str(month_names[i])+'_circum_sit_from_fr_diff_approach_25km.nc')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    ds.to_netcdf('2023_'+str(month_names[i])+'_circum_sit_from_FDM_approach_25km.nc')
