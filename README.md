@@ -1,7 +1,8 @@
 # Antarctic-Sea-ice-thickness: a repository of algorithms to reconstruct Antarctic Sea-ice thickness with satellite observations
-_Authors: Magata J Mangatane , Marcello Vichi_
 
- This repository contains scripts to estimate Antarctic Sea-ice thickness with six satellite methods. The methods are used in Mangatane and Vichi manuscript, submitted to the Journal of Geophysical Research, and is currently under review.
+ This repository contains scripts to estimate Antarctic Sea-ice thickness with six satellite methods. The methods are used in Mangatane, M.J. and Vichi, M., 2025. Intercomparison of Antarctic Sea-Ice Thickness Estimates from Satellite Altimetry and Assessment over the 2019 Data-Rich Year. Remote Sensing, (7), p.1180.
+
+Should you use any part of this repository in your work, kindly cite it as Mangatane, M.J.; Vichi, M. Intercomparison of Antarctic Sea-Ice Thickness Estimates from Satellite Altimetry and Assessment over the 2019 Data-Rich Year. Remote Sens.2025, 17, 1180. https://doi.org/10.3390/rs17071180
 
 ## Brief description
 This collection of scripts reconstructs the Antarctic circumpolar seasonal Sea-ice thickness (SIT) with six methods from 2019 to 2023. Four of the methods only require ICESat-2 sea-ice freeboard data, namely, the Zero sea-ice freeboard method (**ZIF**), the Empirical relationship method (**ERM**),the Buoyancy equation and empirical relationship (**BERM**), and the One-layer Method (**OLM**). The Sea Ice Climate Change Initiative (**SICC**) additionally requires independent snow thickness data, while the Freeboard differencing method (**FDM**) requires ICESat-2 and CryoSat-2 freeboard data. (see Data sources below)
@@ -47,4 +48,6 @@ Below are references to public repositories that were adopted to the methods pre
 * Anthony Arendt, Ben Smith, David Shean, Amy Steiker, Alek Petty, Fernando Perez, Scott Henderson, Fernando Paolo, Johan Nilsson, Maya Becker, Susheel Adusumilli, Daniel Shapero, Bruce Wallin, Axel Schweiger, Suzanne Dickinson, Nicholas Hoschuh, Matthew Siegfried, Thomas Neumann. (2019). ICESAT-2HackWeek/ICESat2_hackweek_tutorials (Version 1.0). Zenodo. http://doi.org/10.5281/zenodo.3360994
 * Jack Landy (2022) “jclandy/CryoSat2_Summer_SIT: CryoSat2_Summer_SIT_2022”. Zenodo. doi: 10.5281/zenodo.6558483.
 
+## Citation
+Should you use any part of this repository in your work, kindly cite it as Mangatane, M.J.; Vichi, M. Intercomparison of Antarctic Sea-Ice Thickness Estimates from Satellite Altimetry and Assessment over the 2019 Data-Rich Year. Remote Sens.2025, 17, 1180. https://doi.org/10.3390/rs17071180
  
